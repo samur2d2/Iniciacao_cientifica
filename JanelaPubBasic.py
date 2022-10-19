@@ -1,11 +1,10 @@
 from cgitb import text
 from tkinter import *
 from tkinter import ttk
-from MQTT_pub import *
+from MQTTPub import *
 
 
 color1 = "#C6DEFF"
-
 
 app = Tk()
 app.title("App")
