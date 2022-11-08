@@ -1,8 +1,10 @@
 import paho.mqtt.client as mqtt
-import time
+from datetime import datetime
+import returnBrokerIP as IP
 import threading
+import time
 
-broker = "192.168.0.68"
+broker = IP.getIP()
 port = 1883
 commands = "pyCommands" 
 client_id = "pyCommandsClient"
@@ -45,10 +47,15 @@ def Ping():
                     
             print("Test ended.")
         else:
+            now = str(datetime.now())
+            day, hour = now.split(" ")
+            hourSent=hour[0: 8]
+            day=day.replace("-", "_")
             ip, command = text.split(" ")
-            result = client.publish(ip, command)[0]
+            parameter, value = command.split("=")
+            result = client.publish(ip, parameter+"/"+day+"/"+hourSent+"/"+value)[0]
             if result == 0:
-                print("Sent "+command+" to "+ip+"... ")
+                print("Sent "+command+" to "+ip+".")
             else:
                 print("Fail to communicate with the broker")
                 
